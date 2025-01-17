@@ -1,0 +1,49 @@
+.menu{
+  width: 100%;
+  margin: auto;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+
+ul {
+  list-style-type: none;
+}
+
+li{
+  float: left;
+  padding: 30px 50px;
+}
+
+.link{
+  color: inherit;
+  text-decoration: inherit;
+}
+
+.navLink{
+  text-decoration: underline solid transparent;
+  transition: text-decoration 0.8s ease;
+  color: black;
+  padding: 5px;
+  margin-top: 15px;
+  font-weight:lighter;
+  font-family:Georgia, 'Times New Roman', Times, serif
+}
+.navLink:hover {
+   text-decoration: underline solid Currentcolor;
+   color:teal;
+}
+
+@media only screen and (max-width: 910px) {
+  li{padding: 30px 30px}
+}
+
+@media only screen and (max-width: 730px) {
+  li{padding: 30px 15px}
+}
+
+@media only screen and (max-width: 600px) {
+  li{float: none;}
+  .navLink{padding: 1px;}
+}
+
