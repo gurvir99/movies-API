@@ -1,19 +1,18 @@
 import "./App.css";
 import Nav from './components/nav';
 import Home from './components/home';
-import About from './components/about';
-import Projects from './components/projects';
+import MovieList from "./components/movieList";
 import {BrowserRouter as Router, Routes, Route} from "react-router";
 
 function App() {
   return (
     <Router>
-      <div>
+      <div className="main">
         <Nav />
         <Routes>
           <Route path="/" exact element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/projects" element={<Projects />} />
+          {/* <Route path="movie/:id" element={<Movie />}></Route> */}
+          <Route path="movies/:type" element={<MovieList />}></Route>
         </Routes>
       </div>
     </Router>

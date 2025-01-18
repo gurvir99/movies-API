@@ -12,13 +12,18 @@ function Nav() {
                     </Link>
                 </li>
                 <li >
-                    <Link className={'link'} to={"/about"}>
-                        <p className={'navLink'}>ABOUT</p>
+                    <Link className={'link'} to={"/movies/popular"}>
+                        <p className={'navLink'}>POPULAR</p>
                     </Link>
                 </li>
                 <li >
-                    <Link className={'link'} to={"/projects"}>
-                        <p className={'navLink'}>PROJECTS</p>
+                    <Link className={'link'} to={"/movies/top_rated"}>
+                        <p className={'navLink'}>TOP RATED</p>
+                    </Link>
+                </li>
+                <li >
+                    <Link className={'link'} to={"/movies/upcoming"}>
+                        <p className={'navLink'}>UPCOMING</p>
                     </Link>
                 </li>
             </ul>   

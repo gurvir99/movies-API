@@ -23,11 +23,11 @@ li{
 .navLink{
   text-decoration: underline solid transparent;
   transition: text-decoration 0.8s ease;
-  color: black;
+  color: wheat;
   padding: 5px;
   margin-top: 15px;
   font-weight:lighter;
-  font-family:Georgia, 'Times New Roman', Times, serif
+  font-family:Verdana, Geneva, Tahoma, sans-serif
 }
 .navLink:hover {
    text-decoration: underline solid Currentcolor;

@@ -1,0 +1,19 @@
+.movie__list {
+    padding: 0 3rem 3rem 3rem;
+}
+
+.list__title {
+font-size: 1.75rem;
+margin:  2.5rem;
+color: whitesmoke;
+font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+font-style: normal;
+font-weight: lighter;
+text-align: center;
+}
+
+.list__cards {
+    display: flex;
+    flex-wrap: wrap ;
+    justify-content: center;
+}
