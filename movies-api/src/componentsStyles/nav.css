@@ -8,11 +8,13 @@
 
 ul {
   list-style-type: none;
+  text-align: center;
+  padding-left: 0;
 }
 
 li{
   float: left;
-  padding: 30px 50px;
+  padding: 30px 30px;
 }
 
 .link{
@@ -26,20 +28,31 @@ li{
   color: wheat;
   padding: 5px;
   margin-top: 15px;
-  font-weight:lighter;
-  font-family:Verdana, Geneva, Tahoma, sans-serif
+  font-family: "Climate Crisis", serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+  font-variation-settings:
+    "YEAR" 1979;
 }
 .navLink:hover {
    text-decoration: underline solid Currentcolor;
    color:teal;
 }
 
-@media only screen and (max-width: 910px) {
-  li{padding: 30px 30px}
+@media only screen and (max-width: 930px) {
+  li{padding: 15px 15px}
+  li{float: none;}
+}
+
+@media only screen and (max-width: 830px) {
+  li{padding: 5px 5px}
+  li{float: none;}
 }
 
 @media only screen and (max-width: 730px) {
-  li{padding: 30px 15px}
+  li{padding: 3px 3px}
+  li{float: none;}
 }
 
 @media only screen and (max-width: 600px) {
@@ -47,3 +60,7 @@ li{
   .navLink{padding: 1px;}
 }
 
+.header__icon {
+  width: 150px;
+  cursor: pointer;
+}

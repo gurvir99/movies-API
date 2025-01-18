@@ -6,24 +6,29 @@ function Nav() {
         <div className='menu'>
             <ul>
                 {/* <li>LOGO</li> */}
+                <li>
+                    <Link className={'link'} to="/">
+                       <img alt="logo" className="header__icon" src={require('../images/logo.png')} />
+                    </Link>
+                </li>
                 <li >
                     <Link className={'link'} exact to={"/"}>
-                        <p className={'navLink'}>HOME</p>
+                        <h2 className={'navLink'}>HOME</h2>
                     </Link>
                 </li>
                 <li >
                     <Link className={'link'} to={"/movies/popular"}>
-                        <p className={'navLink'}>POPULAR</p>
+                        <h2 className={'navLink'}>POPULAR</h2>
                     </Link>
                 </li>
                 <li >
                     <Link className={'link'} to={"/movies/top_rated"}>
-                        <p className={'navLink'}>TOP RATED</p>
+                        <h2 className={'navLink'}>TOP RATED</h2>
                     </Link>
                 </li>
                 <li >
                     <Link className={'link'} to={"/movies/upcoming"}>
-                        <p className={'navLink'}>UPCOMING</p>
+                        <h2 className={'navLink'}>UPCOMING</h2>
                     </Link>
                 </li>
             </ul>   

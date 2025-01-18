@@ -27,10 +27,10 @@ function Card({ movie }) {
         <div className="cards">
             <img alt="card" className="cards__img" src={`https://image.tmdb.org/t/p/original${movie?movie.poster_path:""}`} />
             <div className="cards__overlay">
-                <div className="card__title">{movie?movie.original_title:""}</div>
+                <div className="card__title">{movie?movie.title:""}</div>
                     <div className="card__runtime">
                         {movie?movie.release_date:""}
-                        <span className="card__rating">{movie?movie.vote_average:""}<i className="fas fa-star" /></span>
+                        <span className="card__rating">{movie?parseFloat(movie.vote_average).toFixed(1):""}<i class="fa-regular fa-star-half-stroke"></i></span>
                     </div>
                  <div className="card__description">{movie ? movie.overview.slice(0,118)+"..." : ""}</div>
             </div>
