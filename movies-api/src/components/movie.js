@@ -34,29 +34,30 @@ function Movie() {
       );
   };
 
+  //to iterate cast members object
+  const numbers = [1, 2, 3, 4, 5];
+
   const getVideos = () => {
     fetch(
       `https://api.themoviedb.org/3/movie/${id}/videos?api_key=0a14e28062847d0d8d59959339cfbc66`
     )
       .then((res) => res.json())
-      .then((data) => setVideos(data)
-      );
+      .then((data) => setVideos(data));
   };
 
   //initialize trailer url
   var trailer_url = "";
 
   //check if url data exists
-  if(currentMovieVideos && currentMovieVideos.results)
-  {
+  if (currentMovieVideos && currentMovieVideos.results) {
     let link = "https://www.youtube.com/embed/";
     let trailer_key = "";
-    if(currentMovieVideos.results[currentMovieVideos.results.length - 2])
-    {
-      trailer_key = currentMovieVideos.results[currentMovieVideos.results.length - 1].key;
-    }
-    else{
-      trailer_key = currentMovieVideos.results[currentMovieVideos.results.length - 1].key;
+    if (currentMovieVideos.results[currentMovieVideos.results.length - 2]) {
+      trailer_key =
+        currentMovieVideos.results[currentMovieVideos.results.length - 1].key;
+    } else {
+      trailer_key =
+        currentMovieVideos.results[currentMovieVideos.results.length - 1].key;
     }
     trailer_url = link.concat(trailer_key);
     trailer_url = trailer_url.concat("?modestbranding=1&rel=0");
@@ -107,14 +108,16 @@ function Movie() {
             <div className="movie__links">
               {currentMovieDetail && currentMovieDetail.imdb_id && (
                 <a
-                  href={"https://www.imdb.com/title/" + currentMovieDetail.imdb_id}
+                  href={
+                    "https://www.imdb.com/title/" + currentMovieDetail.imdb_id
+                  }
                   target="_blank"
                   style={{ textDecoration: "none" }}
                   rel="noreferrer"
                 >
                   <p>
                     <span className="movie__homeButton movie__Button">
-                      More 
+                      More
                     </span>
                   </p>
                 </a>
@@ -131,7 +134,33 @@ function Movie() {
       <div className="cast__list">
         <h2 className="cast__title">CAST</h2>
         <div className="cast__cards">
-          <div className="cast">
+          {numbers.map((number, index) => (
+            <>
+              <div className="cast">
+                <img
+                  alt="card"
+                  className="cast__img"
+                  src={`https://image.tmdb.org/t/p/original${
+                    currentMovieCredits
+                      ? currentMovieCredits[index].profile_path
+                      : ""
+                  }`}
+                />
+                <div className="cast__actor">
+                  {currentMovieCredits
+                    ? currentMovieCredits[index].original_name
+                    : ""}
+                </div>
+                <div className="cast__character">
+                  {currentMovieCredits
+                    ? currentMovieCredits[index].character
+                    : ""}
+                </div>
+              </div>
+            </>
+          ))}
+
+          {/* <div className="cast">
             <img
               alt="card"
               className="cast__img"
@@ -146,6 +175,8 @@ function Movie() {
               {currentMovieCredits ? currentMovieCredits[0].character : ""}
             </div>
           </div>
+
+
           <div className="cast">
             <img
               alt="card"
@@ -161,6 +192,8 @@ function Movie() {
               {currentMovieCredits ? currentMovieCredits[1].character : ""}
             </div>
           </div>
+
+          
           <div className="cast">
             <img
               alt="card"
@@ -176,6 +209,8 @@ function Movie() {
               {currentMovieCredits ? currentMovieCredits[2].character : ""}
             </div>
           </div>
+
+          
           <div className="cast">
             <img
               alt="card"
@@ -191,6 +226,8 @@ function Movie() {
               {currentMovieCredits ? currentMovieCredits[3].character : ""}
             </div>
           </div>
+
+
           <div className="cast">
             <img
               alt="card"
@@ -205,12 +242,22 @@ function Movie() {
             <div className="cast__character">
               {currentMovieCredits ? currentMovieCredits[4].character : ""}
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
+
       <div className="trailer">
         <h2 className="cast__title">MEDIA</h2>
-        <iframe title="Trailer" width="900px" height="600px" src={trailer_url} frameborder="0" allow="fullscreen"> </iframe>
+        <iframe
+          title="Trailer"
+          width="900px"
+          height="600px"
+          src={trailer_url}
+          frameborder="0"
+          allow="fullscreen"
+        >
+          {" "}
+        </iframe>
       </div>
     </div>
   );
