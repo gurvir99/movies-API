@@ -92,6 +92,7 @@
 
 .movie__homeButton {
     background-color: brown;
+    margin-top: 100px;
     
 }
 
@@ -152,3 +153,39 @@ text-align: center;
     background: none;
     color: white;
 }
+
+.trailer{
+    width: 100%;
+    height: auto;
+    justify-content: center;
+    text-align: center;
+    margin-bottom: 100px;
+}
+
+@media only screen and (max-width: 930px) {
+    iframe{
+        width: 900px;
+        height: 600px;
+    }
+  }
+  
+  @media only screen and (max-width: 830px) {
+    iframe{
+        width: 800px;
+        height: 500px;
+    }
+  }
+  
+  @media only screen and (max-width: 730px) {
+    iframe{
+        width: 600px;
+        height: 400px;
+    }
+  }
+  
+  @media only screen and (max-width: 600px) {
+    iframe{
+        width: 400px;
+        height: 200px;
+    }
+  }

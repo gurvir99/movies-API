@@ -5,11 +5,13 @@ import "../componentsStyles/movie.css";
 function Movie() {
   const [currentMovieDetail, setMovie] = useState();
   const [currentMovieCredits, setCredits] = useState();
+  const [currentMovieVideos, setVideos] = useState();
   const { id } = useParams();
 
   useEffect(() => {
     getData();
     getCredits();
+    getVideos();
     window.scrollTo(0, 0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -31,6 +33,34 @@ function Movie() {
         setCredits(Object.fromEntries(Object.entries(data.cast).slice(0, 5)))
       );
   };
+
+  const getVideos = () => {
+    fetch(
+      `https://api.themoviedb.org/3/movie/${id}/videos?api_key=0a14e28062847d0d8d59959339cfbc66`
+    )
+      .then((res) => res.json())
+      .then((data) => setVideos(data)
+      );
+  };
+
+  //initialize trailer url
+  var trailer_url = "";
+
+  //check if url data exists
+  if(currentMovieVideos && currentMovieVideos.results)
+  {
+    let link = "https://www.youtube.com/embed/";
+    let trailer_key = "";
+    if(currentMovieVideos.results[currentMovieVideos.results.length - 2])
+    {
+      trailer_key = currentMovieVideos.results[currentMovieVideos.results.length - 1].key;
+    }
+    else{
+      trailer_key = currentMovieVideos.results[currentMovieVideos.results.length - 1].key;
+    }
+    trailer_url = link.concat(trailer_key);
+    trailer_url = trailer_url.concat("?modestbranding=1&rel=0");
+  }
 
   return (
     <div className="movie">
@@ -75,16 +105,16 @@ function Movie() {
                 : ""}
             </div>
             <div className="movie__links">
-              {currentMovieDetail && currentMovieDetail.homepage && (
+              {currentMovieDetail && currentMovieDetail.imdb_id && (
                 <a
-                  href={currentMovieDetail.homepage}
+                  href={"https://www.imdb.com/title/" + currentMovieDetail.imdb_id}
                   target="_blank"
                   style={{ textDecoration: "none" }}
                   rel="noreferrer"
                 >
                   <p>
                     <span className="movie__homeButton movie__Button">
-                      More
+                      More 
                     </span>
                   </p>
                 </a>
@@ -177,6 +207,10 @@ function Movie() {
             </div>
           </div>
         </div>
+      </div>
+      <div className="trailer">
+        <h2 className="cast__title">MEDIA</h2>
+        <iframe title="Trailer" width="900px" height="600px" src={trailer_url} frameborder="0" allow="fullscreen"> </iframe>
       </div>
     </div>
   );
