@@ -1,9 +1,9 @@
 import "./App.css";
-import Nav from './components/nav';
-import Home from './components/home';
+import Nav from "./components/nav";
+import Home from "./components/home";
 import MovieList from "./components/movieList";
 import Movie from "./components/movie";
-import {BrowserRouter as Router, Routes, Route} from "react-router";
+import { BrowserRouter as Router, Routes, Route } from "react-router";
 
 function App() {
   return (
@@ -15,6 +15,9 @@ function App() {
           <Route path="movie/:id" element={<Movie />}></Route>
           <Route path="movies/:type" element={<MovieList />}></Route>
         </Routes>
+        <footer>
+          <p>2025 Copyright &#169; Cine Prime</p>
+        </footer>
       </div>
     </Router>
   );
