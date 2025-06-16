@@ -1,0 +1,117 @@
+.auth-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;   /* Align to top instead of center */
+  justify-content: center;
+  background: black;
+  padding-top: 2rem;  
+}
+
+.auth-form {
+  background: black;
+  padding: 1.2rem 1.5rem;  /* Reduced form padding */
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 320px;
+  max-width: 520px;
+  width: 100%;
+}
+
+.auth-form form{
+  background: black;
+  width: 100%;
+  max-width: 400px;   /* Increase as needed, should not exceed .auth-form's max-width */
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.auth-form h2 {
+  color: #fff;
+  background: black;
+  margin-bottom: 1.5rem;
+    font-family: "Climate Crisis", serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+  font-variation-settings:
+    "YEAR" 1979;
+}
+
+.auth-form input {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  display: block;
+  margin-bottom: 0.5rem;   /* Reduced space between inputs */
+  padding: 0.5rem;         /* Reduced input padding */
+  border-radius: 8px;
+  border: 1px solid #bbb;
+  background: #fff;
+  color: #222;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.auth-form input:focus {
+  border-color: #2684ff;
+  outline: none;
+}
+
+.auth-form button {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: none;
+  background: #2684ff;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  transition: background 0.2s;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  display: block;
+      font-family: "Climate Crisis", serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+    font-variation-settings:
+    "YEAR" 1979;
+}
+
+.auth-form button:hover {
+  background: #0f62fe;
+}
+
+.auth-form p {
+    background: black;
+  color: #eee;
+      font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-weight: lighter;
+}
+
+.auth-form span {
+  color: #2684ff;
+  cursor: pointer;
+  background: black;
+  text-decoration: underline;
+  margin-left: 4px;
+      font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-weight: lighter;
+}
+
+@media (max-width: 600px) {
+  .auth-form {
+    min-width: 0;
+    max-width: 95vw;
+    width: 100%;
+    padding: 1rem 0.5rem;
+  }
+}

@@ -2,8 +2,8 @@ import "./App.css";
 import Nav from "./components/nav";
 import Home from "./components/home";
 import MovieList from "./components/movieList";
-import Search from "./components/search";
 import Movie from "./components/movie";
+import Signup from "./components/signup";
 import { BrowserRouter as Router, Routes, Route } from "react-router";
 
 function App() {
@@ -13,9 +13,9 @@ function App() {
         <Nav />
         <Routes>
           <Route path="/" exact element={<Home />} />
+          <Route path="/auth" element={<Signup />} />
           <Route path="movie/:id" element={<Movie />}></Route>
           <Route path="movies/:type" element={<MovieList />}></Route>
-          <Route path="search" element={<Search />}></Route>
         </Routes>
         <footer>
           <p>2025 Copyright &#169; Cine Prime</p>

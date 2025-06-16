@@ -2,6 +2,7 @@ import '../componentsStyles/nav.css';
 import {Link} from 'react-router';
 
 function Nav() {
+
     return (
         <div className='menu'>
             <ul>
@@ -29,6 +30,11 @@ function Nav() {
                 <li >
                     <Link className={'link'} to={"/movies/upcoming"}>
                         <h2 className={'navLink'}>UPCOMING</h2>
+                    </Link>
+                </li>
+                <li>
+                    <Link className="link" to="/auth">
+                       <h2 className="navLink">LOGIN</h2>
                     </Link>
                 </li>
             </ul>   
