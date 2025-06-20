@@ -1,8 +1,15 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
+import React, { useContext } from "react";
 import "../componentsStyles/movie.css";
+import { AuthContext } from "../context/AuthContext";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 function Movie() {
+  const { isLoggedIn } = useContext(AuthContext);
+  const [isFavourite, setIsFavourite] = useState(false);
+
   const [currentMovieDetail, setMovie] = useState();
   const [currentMovieCredits, setCredits] = useState();
   const [currentMovieVideos, setVideos] = useState();
@@ -63,6 +70,69 @@ function Movie() {
     trailer_url = trailer_url.concat("?modestbranding=1&rel=0");
   }
 
+  useEffect(() => {
+    // Check if this movie is already in favourites (optional: only if user is logged in)
+    const fetchFavourites = async () => {
+      if (isLoggedIn) {
+        try {
+          const res = await axios.get("/api/favorites/getFavorites", {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          });
+          setIsFavourite(
+            res.data.some(
+              (fav) => fav.id.toString() === currentMovieDetail.id.toString()
+            )
+          );
+        } catch (err) {
+          // handle error if needed
+        }
+      }
+    };
+    fetchFavourites();
+  }, [isLoggedIn, currentMovieDetail]);
+
+  const handleAddToFavourites = async () => {
+    try {
+      await axios.post(
+        "/api/favorites/addFavorite",
+        {
+          id: currentMovieDetail.id,
+          title: currentMovieDetail.title,
+          poster_path: currentMovieDetail.poster_path,
+          overview: currentMovieDetail.overview,
+          release_date: currentMovieDetail.release_date,
+          vote_average: currentMovieDetail.vote_average,
+        },
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
+      toast.success("Added to favourites!");
+      setIsFavourite(true);
+    } catch (err) {
+      toast.error(err.response?.data?.error || "Failed to add to favourites");
+    }
+  };
+
+  const handleRemoveFromFavourites = async () => {
+    try {
+      await axios.delete(
+        `/api/favorites/removeFavorite/${currentMovieDetail.id}`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
+      toast.success("Removed from favourites!");
+      setIsFavourite(false);
+    } catch (err) {
+      toast.error(
+        err.response?.data?.error || "Failed to remove from favourites"
+      );
+    }
+  };
+
   return (
     <div className="movie">
       <div className="movie__intro">
@@ -108,6 +178,7 @@ function Movie() {
             <div className="movie__links">
               {currentMovieDetail && currentMovieDetail.imdb_id && (
                 <a
+                  className="imdb__link"
                   href={
                     "https://www.imdb.com/title/" + currentMovieDetail.imdb_id
                   }
@@ -115,13 +186,33 @@ function Movie() {
                   style={{ textDecoration: "none" }}
                   rel="noreferrer"
                 >
-                  <p>
+                  <button className="movie__homeButton movie__Button">
+                    More Info
+                  </button>
+                  {/* <p>
                     <span className="movie__homeButton movie__Button">
-                      More
+                      More Info
                     </span>
-                  </p>
+                  </p> */}
                 </a>
               )}
+
+              {isLoggedIn &&
+                (isFavourite ? (
+                  <button
+                    className="fav__Button"
+                    onClick={handleRemoveFromFavourites}
+                  >
+                    Remove From Favourites
+                  </button>
+                ) : (
+                  <button
+                    className="fav__Button"
+                    onClick={handleAddToFavourites}
+                  >
+                    Add To Favourites
+                  </button>
+                ))}
             </div>
           </div>
         </div>
@@ -159,90 +250,6 @@ function Movie() {
               </div>
             </>
           ))}
-
-          {/* <div className="cast">
-            <img
-              alt="card"
-              className="cast__img"
-              src={`https://image.tmdb.org/t/p/original${
-                currentMovieCredits ? currentMovieCredits[0].profile_path : ""
-              }`}
-            />
-                        <div className="cast__actor">
-              {currentMovieCredits ? currentMovieCredits[0].original_name : ""}
-            </div>
-            <div className="cast__character">
-              {currentMovieCredits ? currentMovieCredits[0].character : ""}
-            </div>
-          </div>
-
-
-          <div className="cast">
-            <img
-              alt="card"
-              className="cast__img"
-              src={`https://image.tmdb.org/t/p/original${
-                currentMovieCredits ? currentMovieCredits[1].profile_path : ""
-              }`}
-            />
-                        <div className="cast__actor">
-              {currentMovieCredits ? currentMovieCredits[1].original_name : ""}
-            </div>
-            <div className="cast__character">
-              {currentMovieCredits ? currentMovieCredits[1].character : ""}
-            </div>
-          </div>
-
-          
-          <div className="cast">
-            <img
-              alt="card"
-              className="cast__img"
-              src={`https://image.tmdb.org/t/p/original${
-                currentMovieCredits ? currentMovieCredits[2].profile_path : ""
-              }`}
-            />
-                        <div className="cast__actor">
-              {currentMovieCredits ? currentMovieCredits[2].original_name : ""}
-            </div>
-            <div className="cast__character">
-              {currentMovieCredits ? currentMovieCredits[2].character : ""}
-            </div>
-          </div>
-
-          
-          <div className="cast">
-            <img
-              alt="card"
-              className="cast__img"
-              src={`https://image.tmdb.org/t/p/original${
-                currentMovieCredits ? currentMovieCredits[3].profile_path : ""
-              }`}
-            />
-                       <div className="cast__actor">
-              {currentMovieCredits ? currentMovieCredits[3].original_name : ""}
-            </div>
-            <div className="cast__character">
-              {currentMovieCredits ? currentMovieCredits[3].character : ""}
-            </div>
-          </div>
-
-
-          <div className="cast">
-            <img
-              alt="card"
-              className="cast__img"
-              src={`https://image.tmdb.org/t/p/original${
-                currentMovieCredits ? currentMovieCredits[4].profile_path : ""
-              }`}
-            />
-                   <div className="cast__actor">
-              {currentMovieCredits ? currentMovieCredits[4].original_name : ""}
-            </div>
-            <div className="cast__character">
-              {currentMovieCredits ? currentMovieCredits[4].character : ""}
-            </div>
-          </div> */}
         </div>
       </div>
 

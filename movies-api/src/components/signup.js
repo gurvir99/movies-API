@@ -1,14 +1,25 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-//import { useNavigate } from 'react-router-dom'; // Add this import
+import { useNavigate } from 'react-router-dom'; // Add this import
 import '../componentsStyles/signup.css';
+import { useEffect, useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
+import { toast } from 'react-toastify';
 
 function Signup() {
+
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate(); // Add this line
   const [activeForm, setActiveForm] = useState('signIn');
   const [signInData, setSignInData] = useState({ email: '', password: '' });
   const [signUpData, setSignUpData] = useState({ name: '', email: '', password: '', confirm_password: '' });
 
-  //const navigate = useNavigate(); // Add this line
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      navigate('/'); // Redirect to Home if already logged in
+    }
+  }, [navigate]);
 
   const handleToggle = (formName) => {
     setActiveForm(formName);
@@ -29,26 +40,31 @@ function Signup() {
     if (activeForm === 'signIn') {
       try {
         const res = await axios.post('/api/users/login', signInData);
-        alert(res.data.message); // or handle login success (e.g., save token, redirect)
+        //alert(res.data.message); // or handle login success (e.g., save token, redirect)
+        toast.success(res.data.message || 'Sign In successful!');
 
-        //localStorage.setItem('isLoggedIn', 'true');
-        //navigate('/'); // Redirect to homepage
+        login(res.data.token); // Use context to log in
+        navigate('/'); // Redirect to Home page
 
       } catch (err) {
-        alert(err.response?.data?.message || 'Sign In failed');
+        //alert(err.response?.data?.message || 'Sign In failed');
+        toast.warning(err.response?.data?.message || 'Sign In failed! Please try again.');
       }
     } else {
       if (signUpData.password !== signUpData.confirm_password) {
-        alert("Passwords do not match");
+        //alert("Passwords do not match");
+        toast.warning('Passwords do not match!');
         return;
       }
       try {
         const { name, email, password } = signUpData;
         const res = await axios.post('/api/users/register', { name, email, password });
-        alert(res.data.message); // or handle sign up success
-        
+        //alert(res.data.message); // Show registration success message
+        toast.success(res.data.message || 'Sign Up successful! Please sign in.');
+        setActiveForm('signIn'); // Switch to sign-in form after alert
       } catch (err) {
-        alert(err.response?.data?.message || 'Sign Up failed');
+        //alert(err.response?.data?.message || 'Sign Up failed');
+        toast.warning(err.response?.data?.message || 'Sign Up failed! Please try again.');
       }
     }
   };

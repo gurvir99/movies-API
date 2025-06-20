@@ -30,6 +30,9 @@ function MovieList() {
     }
   }, [type, searchTerm]);
 
+    // Log the movieList parameter data
+  console.log('movieList:', movieList);
+
   // Handle search form submit
   const handleSearch = (e) => {
     e.preventDefault();
