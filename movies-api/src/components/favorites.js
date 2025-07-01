@@ -5,6 +5,11 @@ import Card from "../components/card";
 import '../componentsStyles/favorites.css';
 
 function Favorites() {
+
+  const API = axios.create({
+  baseURL: process.env.REACT_APP_API_URL,
+  });
+
   const { isLoggedIn } = useContext(AuthContext);
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -12,7 +17,7 @@ function Favorites() {
   useEffect(() => {
     const fetchFavorites = async () => {
       try {
-        const res = await axios.get("/api/favorites/getFavorites", {
+        const res = await API.get("/api/favorites/getFavorites", {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         });
         setFavorites(res.data);

@@ -8,6 +8,11 @@ import { FaStarHalfAlt } from "react-icons/fa";
 import { toast } from "sonner";
 
 function Reviews() {
+
+  const API = axios.create({
+  baseURL: process.env.REACT_APP_API_URL,
+  });
+
   const { id: movieId } = useParams(); // Get movieId from URL
   const { isLoggedIn } = useContext(AuthContext);
   const [reviews, setReviews] = useState([]);
@@ -33,7 +38,7 @@ function Reviews() {
   useEffect(() => {
     const fetchMovie = async () => {
       try {
-        const res = await axios.get(
+        const res = await API.get(
           `https://api.themoviedb.org/3/movie/${movieId}?api_key=0a14e28062847d0d8d59959339cfbc66`
         );
         setPosterPath(res.data.backdrop_path);
@@ -51,7 +56,7 @@ function Reviews() {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const res = await axios.get(`/api/reviews/getReviews/movie/${movieId}`);
+        const res = await API.get(`/api/reviews/getReviews/movie/${movieId}`);
         setReviews(res.data);
       } catch (err) {
         setReviews([]);
@@ -69,7 +74,7 @@ function Reviews() {
     try {
       if (editingReviewId) {
         // Update review
-        await axios.put(
+        await API.put(
           `/api/reviews/updateReviews/${editingReviewId}`,
           { text: reviewText, rating: reviewRating },
           { headers: { Authorization: `Bearer ${token}` } }
@@ -77,7 +82,7 @@ function Reviews() {
         toast.success("Review Updated!");
       } else {
         // Add new review
-        await axios.post(
+        await API.post(
           "/api/reviews/addReviews",
           { movieId, text: reviewText, rating: reviewRating },
           { headers: { Authorization: `Bearer ${token}` } }
@@ -88,7 +93,7 @@ function Reviews() {
       setReviewRating(5);
       setEditingReviewId(null);
       // Refresh reviews
-      const res = await axios.get(`/api/reviews/getReviews/movie/${movieId}`);
+      const res = await API.get(`/api/reviews/getReviews/movie/${movieId}`);
       setReviews(res.data);
     } catch (err) {
       //show error
@@ -110,7 +115,7 @@ function Reviews() {
   const handleDelete = async (reviewId) => {
     const token = localStorage.getItem("token");
     try {
-      await axios.delete(`/api/reviews/deleteReviews/${reviewId}`, {
+      await API.delete(`/api/reviews/deleteReviews/${reviewId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setReviews(reviews.filter((r) => r._id !== reviewId));

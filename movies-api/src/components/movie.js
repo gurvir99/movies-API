@@ -8,6 +8,11 @@ import { useNavigate } from "react-router-dom";
 import { toast } from 'sonner';
 
 function Movie() {
+
+  const API = axios.create({
+  baseURL: process.env.REACT_APP_API_URL,
+ });
+
   const { isLoggedIn } = useContext(AuthContext);
   const [isFavourite, setIsFavourite] = useState(false);
 
@@ -78,7 +83,7 @@ function Movie() {
     const fetchFavourites = async () => {
       if (isLoggedIn) {
         try {
-          const res = await axios.get("/api/favorites/getFavorites", {
+          const res = await API.get("/api/favorites/getFavorites", {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
@@ -98,7 +103,7 @@ function Movie() {
 
   const handleAddToFavourites = async () => {
     try {
-      await axios.post(
+      await API.post(
         "/api/favorites/addFavorite",
         {
           id: currentMovieDetail.id,
@@ -121,7 +126,7 @@ function Movie() {
 
   const handleRemoveFromFavourites = async () => {
     try {
-      await axios.delete(
+      await API.delete(
         `/api/favorites/removeFavorite/${currentMovieDetail.id}`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
