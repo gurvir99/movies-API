@@ -4,7 +4,8 @@ import React, { useContext } from "react";
 import "../componentsStyles/movie.css";
 import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { toast } from 'sonner';
 
 function Movie() {
   const { isLoggedIn } = useContext(AuthContext);
@@ -14,6 +15,8 @@ function Movie() {
   const [currentMovieCredits, setCredits] = useState();
   const [currentMovieVideos, setVideos] = useState();
   const { id } = useParams();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     getData();
@@ -109,10 +112,10 @@ function Movie() {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
-      toast.success("Added to favourites!");
+      toast.success("Added To Watchlist!");
       setIsFavourite(true);
     } catch (err) {
-      toast.error(err.response?.data?.error || "Failed to add to favourites");
+      toast.error(err.response?.data?.error || "Failed To Add To Watchlist");
     }
   };
 
@@ -124,11 +127,11 @@ function Movie() {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
-      toast.success("Removed from favourites!");
+      toast.success("Removed From Watchlist!");
       setIsFavourite(false);
     } catch (err) {
       toast.error(
-        err.response?.data?.error || "Failed to remove from favourites"
+        err.response?.data?.error || "Failed To Remove From Watchlist"
       );
     }
   };
@@ -187,7 +190,7 @@ function Movie() {
                   rel="noreferrer"
                 >
                   <button className="movie__homeButton movie__Button">
-                    More Info
+                    Check IMDb
                   </button>
                   {/* <p>
                     <span className="movie__homeButton movie__Button">
@@ -203,16 +206,27 @@ function Movie() {
                     className="fav__Button"
                     onClick={handleRemoveFromFavourites}
                   >
-                    Remove From Favourites
+                    Remove From Watchlist
                   </button>
                 ) : (
                   <button
                     className="fav__Button"
                     onClick={handleAddToFavourites}
                   >
-                    Add To Favourites
+                    Add To Watchlist
                   </button>
                 ))}
+
+                <button
+                    className="fav__Button"
+                    onClick={() => navigate(`/movie/${currentMovieDetail.id}/review`)}
+                  >
+                    Reviews
+                  </button>
+
+
+
+
             </div>
           </div>
         </div>

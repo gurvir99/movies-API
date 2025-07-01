@@ -27,16 +27,16 @@ function Favorites() {
     else setLoading(false);
   }, [isLoggedIn]);
 
-  if (!isLoggedIn) return <div>Please log in to view your favorites.</div>;
+  if (!isLoggedIn) return <div>Please log in to view your watchlist.</div>;
   if (loading) return <div>Loading...</div>;
 
 
     return (
       <div style={{ color: 'white' }}>
         <div className="favorites-container">
-          <h2 className="favorites-title">MY FAVORITES</h2>
+          <h2 className="favorites-title">MY WATCHLIST</h2>
           {favorites.length === 0 ? (
-            <p className="empty_title">The movies you add to favourites will show up here.</p>
+            <p className="empty_title">The movies you add to your watchlist will show up here.</p>
           ) : (
             <div className="list__cards">
               {favorites.map((movie) => (

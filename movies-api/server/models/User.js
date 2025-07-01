@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 
 
 const favoriteSchema = new mongoose.Schema({
-  id: {type: String, unique: true},       // movie ID from the external API (like TMDB)
+  id: String,       // movie ID from the external API (like TMDB)
   title: String,    // movie title
   poster_path: String, // optional: movie poster path
   overview: String, // optional: movie overview

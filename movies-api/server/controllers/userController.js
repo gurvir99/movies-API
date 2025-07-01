@@ -13,13 +13,14 @@ exports.register = async (req, res) => {
 
     // Generate JWT token
     const token = jwt.sign(
-      { id: user._id, email: user.email },
+      { id: user._id, email: user.email, name: user.name },
       process.env.JWT_SECRET,
       { expiresIn: '1h' }
     );
 
     res.status(201).json({ message: 'User Registered Successfully!', token });
   } catch (err) {
+    console.error('Registration error:', err);
     res.status(500).json({ message: 'Server Error' });
   }
 };
@@ -36,7 +37,7 @@ exports.login = async (req, res) => {
 
     // Generate JWT token
     const token = jwt.sign(
-      { id: user._id, email: user.email },
+      { id: user._id, email: user.email, name: user.name },
       process.env.JWT_SECRET,
       { expiresIn: '1h' }
     );

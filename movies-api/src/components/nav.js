@@ -2,7 +2,7 @@ import "../componentsStyles/nav.css";
 import { Link, useNavigate } from "react-router-dom";
 import React, { useContext, useState, useRef, useEffect } from "react";
 import { AuthContext } from '../context/AuthContext';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 
 function Nav() {
   const { isLoggedIn, logout } = useContext(AuthContext);
@@ -13,7 +13,7 @@ function Nav() {
   const handleLogout = async () => {
     await logout();
     navigate('/');
-    toast('You have been logged out. See you soon!');
+    toast('You Have Been Logged Out. See You Soon!');
     setDropdownOpen(false);
   };
 
@@ -79,7 +79,7 @@ function Nav() {
               {dropdownOpen && (
                 <div className="dropdown-content">
                   <Link className="dropdown-item" to="/favorites">
-                    MY FAVORITES
+                    MY WATCHLIST
                   </Link>
                  
                   <div className="dropdown-item" onClick={handleLogout}>

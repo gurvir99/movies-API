@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'; // Add this import
 import '../componentsStyles/signup.css';
 import { useEffect, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 
 function Signup() {
 
@@ -41,30 +41,30 @@ function Signup() {
       try {
         const res = await axios.post('/api/users/login', signInData);
         //alert(res.data.message); // or handle login success (e.g., save token, redirect)
-        toast.success(res.data.message || 'Sign In successful!');
+        toast.success(res.data.message || 'Sign In Successful!');
 
         login(res.data.token); // Use context to log in
         navigate('/'); // Redirect to Home page
 
       } catch (err) {
         //alert(err.response?.data?.message || 'Sign In failed');
-        toast.warning(err.response?.data?.message || 'Sign In failed! Please try again.');
+        toast.error(err.response?.data?.message || 'Sign In Failed! Please Try Again.');
       }
     } else {
       if (signUpData.password !== signUpData.confirm_password) {
         //alert("Passwords do not match");
-        toast.warning('Passwords do not match!');
+        toast.warning('Passwords Do Not Match!');
         return;
       }
       try {
         const { name, email, password } = signUpData;
         const res = await axios.post('/api/users/register', { name, email, password });
         //alert(res.data.message); // Show registration success message
-        toast.success(res.data.message || 'Sign Up successful! Please sign in.');
+        toast.success(res.data.message || 'Sign Up Successful! Please Sign In.');
         setActiveForm('signIn'); // Switch to sign-in form after alert
       } catch (err) {
         //alert(err.response?.data?.message || 'Sign Up failed');
-        toast.warning(err.response?.data?.message || 'Sign Up failed! Please try again.');
+        toast.error(err.response?.data?.message || 'Sign Up Failed! Please Try Again.');
       }
     }
   };
