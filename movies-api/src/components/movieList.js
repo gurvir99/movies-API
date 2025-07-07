@@ -9,26 +9,32 @@ function MovieList() {
   const [searchParams, setSearchParams] = useSearchParams();
   const searchTerm = searchParams.get("q") || "";
 
-  // Fetch movies based on type or search term
   useEffect(() => {
-    if (searchTerm) {
-      fetch(
-        `https://api.themoviedb.org/3/search/movie?api_key=0a14e28062847d0d8d59959339cfbc66&query=${encodeURIComponent(
-          searchTerm
-        )}`
-      )
-        .then((res) => res.json())
-        .then((data) => setMovieList(data.results || []));
-    } else {
-      fetch(
-        `https://api.themoviedb.org/3/movie/${
-          type ? type : "now_playing"
-        }?api_key=0a14e28062847d0d8d59959339cfbc66`
-      )
-        .then((res) => res.json())
-        .then((data) => setMovieList(data.results));
-    }
+    const fetchMovies = async () => {
+      try {
+        if (searchTerm) {
+          const res = await fetch(
+            `/api/tmdb/search?query=${encodeURIComponent(searchTerm)}`
+          );
+          const data = await res.json();
+          setMovieList(data.results || []);
+        } else {
+          const movieType = type || "now_playing";
+          const res = await fetch(`/api/tmdb/type/${movieType}`);
+          const data = await res.json();
+          setMovieList(data.results || []);
+        }
+      } catch (err) {
+        console.error("Error fetching movie data:", err);
+        setMovieList([]);
+      }
+    };
+
+    fetchMovies();
   }, [type, searchTerm]);
+
+  // Log the movieList parameter data
+  console.log("movieList:", movieList);
 
   // Handle search form submit
   const handleSearch = (e) => {
@@ -38,8 +44,8 @@ function MovieList() {
   };
 
   return (
-    <div className="movie__list">     
-      <div className="list-header-row" >
+    <div className="movie__list">
+      <div className="list-header-row">
         <h2 className="list__title">
           {(type ? type : "NOW PLAYING").toUpperCase()} MOVIES
         </h2>
@@ -56,7 +62,7 @@ function MovieList() {
             Search
           </button>
         </form>
-      </div>    
+      </div>
       <div className="list__cards">
         {movieList.map((movie) => (
           <Card movie={movie} />

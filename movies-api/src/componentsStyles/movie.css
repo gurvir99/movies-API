@@ -43,16 +43,16 @@
 }
 
 .movie__genres {
-    margin: 1.25rem 0;
+    margin: 3rem 0;
 }
 
 .movie__genre {
     padding: .5rem;
     border: 2px solid white;
     border-radius: 20px;
-    float: left;
+    float: left;;
     margin-top: 5px;
-    margin-bottom: 8px;
+    margin-bottom: 14px;
     margin-right: 1rem;
 }
 
@@ -75,28 +75,54 @@
 }
 
 .movie__Button {
+    display:block;
+    justify-content: center;
+    align-items: center;
+    padding: 0.8rem 2rem;
+    border-radius: 20px;
+    cursor: pointer;
+    width: 200px;
+    color: white;
+    font-family: "Orbitron", serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: bold;
+    font-size: medium;
+    margin-top: 4rem;
+    clear: both;
+}
+
+.movie__homeButton {
+    background-color: brown;
+    border-color: white;
+}
+
+.movie__homeButton:hover{
+    background-color:teal;
+}
+
+.fav__Button{
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 0.8rem 2rem;
     border-radius: 20px;
     cursor: pointer;
-    width: 120px;
+    width: 200px;
     color: white;
     font-family: "Orbitron", serif;
     font-optical-sizing: auto;
     font-weight: 500;
     font-style: bold;
-    margin-top: 20px;
-}
-
-.movie__homeButton {
     background-color: brown;
-    margin-top: 100px;
-    
+    margin-top: 10px;
+    text-align: center;
+    font-size: large;
+    border-color: white;
+    font-size: medium;
 }
 
-.movie__homeButton:hover{
+.fav__Button:hover{
     background-color:teal;
 }
 

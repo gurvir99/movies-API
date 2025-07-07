@@ -64,3 +64,51 @@ li{
   width: 150px;
   cursor: pointer;
 }
+
+
+
+
+/* Dropdown styles */
+.nav-item {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-trigger {
+  cursor: pointer;
+}
+
+
+.dropdown-content {
+  position: absolute;
+  right: 0;
+  background-color: black;
+  min-width: 160px;
+  border-radius: 4px;
+  padding: 8px 0;
+  background: #a86432;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+.dropdown-item {
+  color: wheat; /* Match the color of navLink */
+  padding: 5px; /* Match padding */
+  margin: 0; /* Remove margin for consistency */
+  font-family: "Climate Crisis", serif; /* Match font family */
+  font-weight: 300; /* Match font weight */
+  text-decoration: underline solid transparent; /* Match text decoration */
+  transition: text-decoration 0.8s ease; /* Match transition */
+  cursor: pointer; /* Change cursor to pointer */
+  background: transparent;
+}
+.dropdown-item:hover {
+  text-decoration: underline solid Currentcolor; /* Match hover effect */
+  color: #182529; /* Match hover color */
+}
+.divider {
+  height: 1px;
+  background-color: #ddd;
+  margin: 4px 0;
+}

@@ -1,12 +1,26 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
+import React, { useContext } from "react";
 import "../componentsStyles/movie.css";
+import { AuthContext } from "../context/AuthContext";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 function Movie() {
+  const API = axios.create({
+    baseURL: process.env.REACT_APP_API_URL,
+  });
+
+  const { isLoggedIn } = useContext(AuthContext);
+  const [isFavourite, setIsFavourite] = useState(false);
+
   const [currentMovieDetail, setMovie] = useState();
   const [currentMovieCredits, setCredits] = useState();
   const [currentMovieVideos, setVideos] = useState();
   const { id } = useParams();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     getData();
@@ -17,17 +31,13 @@ function Movie() {
   }, []);
 
   const getData = () => {
-    fetch(
-      `https://api.themoviedb.org/3/movie/${id}?api_key=0a14e28062847d0d8d59959339cfbc66`
-    )
+    fetch(`/api/tmdb/movie/${id}`)
       .then((res) => res.json())
       .then((data) => setMovie(data));
   };
 
   const getCredits = () => {
-    fetch(
-      `https://api.themoviedb.org/3/movie/${id}/credits?api_key=0a14e28062847d0d8d59959339cfbc66`
-    )
+    fetch(`/api/tmdb/movie/${id}/credits`)
       .then((res) => res.json())
       .then((data) =>
         setCredits(Object.fromEntries(Object.entries(data.cast).slice(0, 5)))
@@ -38,9 +48,7 @@ function Movie() {
   const numbers = [1, 2, 3, 4, 5];
 
   const getVideos = () => {
-    fetch(
-      `https://api.themoviedb.org/3/movie/${id}/videos?api_key=0a14e28062847d0d8d59959339cfbc66`
-    )
+    fetch(`/api/tmdb/movie/${id}/videos`)
       .then((res) => res.json())
       .then((data) => setVideos(data));
   };
@@ -62,6 +70,69 @@ function Movie() {
     trailer_url = link.concat(trailer_key);
     trailer_url = trailer_url.concat("?modestbranding=1&rel=0");
   }
+
+  useEffect(() => {
+    // Check if this movie is already in favourites (optional: only if user is logged in)
+    const fetchFavourites = async () => {
+      if (isLoggedIn) {
+        try {
+          const res = await API.get("/api/favorites/getFavorites", {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          });
+          setIsFavourite(
+            res.data.some(
+              (fav) => fav.id.toString() === currentMovieDetail.id.toString()
+            )
+          );
+        } catch (err) {
+          // handle error if needed
+        }
+      }
+    };
+    fetchFavourites();
+  }, [isLoggedIn, currentMovieDetail, API]);
+
+  const handleAddToFavourites = async () => {
+    try {
+      await API.post(
+        "/api/favorites/addFavorite",
+        {
+          id: currentMovieDetail.id,
+          title: currentMovieDetail.title,
+          poster_path: currentMovieDetail.poster_path,
+          overview: currentMovieDetail.overview,
+          release_date: currentMovieDetail.release_date,
+          vote_average: currentMovieDetail.vote_average,
+        },
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
+      toast.success("Added To Watchlist!");
+      setIsFavourite(true);
+    } catch (err) {
+      toast.error(err.response?.data?.error || "Failed To Add To Watchlist");
+    }
+  };
+
+  const handleRemoveFromFavourites = async () => {
+    try {
+      await API.delete(
+        `/api/favorites/removeFavorite/${currentMovieDetail.id}`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
+      toast.success("Removed From Watchlist!");
+      setIsFavourite(false);
+    } catch (err) {
+      toast.error(
+        err.response?.data?.error || "Failed To Remove From Watchlist"
+      );
+    }
+  };
 
   return (
     <div className="movie">
@@ -108,6 +179,7 @@ function Movie() {
             <div className="movie__links">
               {currentMovieDetail && currentMovieDetail.imdb_id && (
                 <a
+                  className="imdb__link"
                   href={
                     "https://www.imdb.com/title/" + currentMovieDetail.imdb_id
                   }
@@ -115,13 +187,42 @@ function Movie() {
                   style={{ textDecoration: "none" }}
                   rel="noreferrer"
                 >
-                  <p>
+                  <button className="movie__homeButton movie__Button">
+                    Check IMDb
+                  </button>
+                  {/* <p>
                     <span className="movie__homeButton movie__Button">
-                      More
+                      More Info
                     </span>
-                  </p>
+                  </p> */}
                 </a>
               )}
+
+              {isLoggedIn &&
+                (isFavourite ? (
+                  <button
+                    className="fav__Button"
+                    onClick={handleRemoveFromFavourites}
+                  >
+                    Remove From Watchlist
+                  </button>
+                ) : (
+                  <button
+                    className="fav__Button"
+                    onClick={handleAddToFavourites}
+                  >
+                    Add To Watchlist
+                  </button>
+                ))}
+
+              <button
+                className="fav__Button"
+                onClick={() =>
+                  navigate(`/movie/${currentMovieDetail.id}/review`)
+                }
+              >
+                Reviews
+              </button>
             </div>
           </div>
         </div>
@@ -159,90 +260,6 @@ function Movie() {
               </div>
             </>
           ))}
-
-          {/* <div className="cast">
-            <img
-              alt="card"
-              className="cast__img"
-              src={`https://image.tmdb.org/t/p/original${
-                currentMovieCredits ? currentMovieCredits[0].profile_path : ""
-              }`}
-            />
-                        <div className="cast__actor">
-              {currentMovieCredits ? currentMovieCredits[0].original_name : ""}
-            </div>
-            <div className="cast__character">
-              {currentMovieCredits ? currentMovieCredits[0].character : ""}
-            </div>
-          </div>
-
-
-          <div className="cast">
-            <img
-              alt="card"
-              className="cast__img"
-              src={`https://image.tmdb.org/t/p/original${
-                currentMovieCredits ? currentMovieCredits[1].profile_path : ""
-              }`}
-            />
-                        <div className="cast__actor">
-              {currentMovieCredits ? currentMovieCredits[1].original_name : ""}
-            </div>
-            <div className="cast__character">
-              {currentMovieCredits ? currentMovieCredits[1].character : ""}
-            </div>
-          </div>
-
-          
-          <div className="cast">
-            <img
-              alt="card"
-              className="cast__img"
-              src={`https://image.tmdb.org/t/p/original${
-                currentMovieCredits ? currentMovieCredits[2].profile_path : ""
-              }`}
-            />
-                        <div className="cast__actor">
-              {currentMovieCredits ? currentMovieCredits[2].original_name : ""}
-            </div>
-            <div className="cast__character">
-              {currentMovieCredits ? currentMovieCredits[2].character : ""}
-            </div>
-          </div>
-
-          
-          <div className="cast">
-            <img
-              alt="card"
-              className="cast__img"
-              src={`https://image.tmdb.org/t/p/original${
-                currentMovieCredits ? currentMovieCredits[3].profile_path : ""
-              }`}
-            />
-                       <div className="cast__actor">
-              {currentMovieCredits ? currentMovieCredits[3].original_name : ""}
-            </div>
-            <div className="cast__character">
-              {currentMovieCredits ? currentMovieCredits[3].character : ""}
-            </div>
-          </div>
-
-
-          <div className="cast">
-            <img
-              alt="card"
-              className="cast__img"
-              src={`https://image.tmdb.org/t/p/original${
-                currentMovieCredits ? currentMovieCredits[4].profile_path : ""
-              }`}
-            />
-                   <div className="cast__actor">
-              {currentMovieCredits ? currentMovieCredits[4].original_name : ""}
-            </div>
-            <div className="cast__character">
-              {currentMovieCredits ? currentMovieCredits[4].character : ""}
-            </div>
-          </div> */}
         </div>
       </div>
 

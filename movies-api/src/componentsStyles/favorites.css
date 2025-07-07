@@ -1,0 +1,74 @@
+.favorites-container {
+  color: #fff;
+  padding: 2rem 1rem;
+  min-height: 60vh;
+  box-sizing: border-box;
+}
+
+.favorites-title {
+font-size: 1.75rem;
+margin:  1.5rem 0;
+color: whitesmoke;
+font-family: "Orbitron", serif;
+font-optical-sizing: auto;
+font-weight: 200;
+font-style: normal;
+color: burlywood;
+text-align: center;
+margin-bottom: 20px;
+}
+
+.empty_title{
+  font-size: 1.75rem;
+margin:  1.5rem 0;
+font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+font-optical-sizing: auto;
+font-weight: 100;;
+font-style: normal;
+font-size: 100%;
+color: wheat;
+text-align: center;
+margin-bottom: 20px;
+margin-top: 100px;
+margin-bottom: 500px;
+}
+
+.list__cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+  margin-bottom: 3rem;
+}
+
+.fav-card {
+  background: rgba(30, 30, 30, 0.85);
+  border-radius: 1rem;
+  padding: 1.2rem 1.5rem;
+  min-width: 220px;
+  max-width: 320px;
+  text-align: center;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.25);
+  font-family: 'Orbitron', 'Montserrat', 'Arial', sans-serif;
+  transition: transform 0.2s;
+}
+
+.fav-card:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+}
+
+@media (max-width: 600px) {
+  .favorites-title {
+    font-size: 1.4rem;
+  }
+  .fav-card {
+    min-width: 90vw;
+    max-width: 98vw;
+    padding: 1rem 0.5rem;
+  }
+  .list__cards {
+    gap: 0.7rem;
+    margin-bottom: 1.5rem;
+  }
+}
