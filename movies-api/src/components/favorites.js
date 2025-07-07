@@ -30,7 +30,7 @@ function Favorites() {
 
     if (isLoggedIn) fetchFavorites();
     else setLoading(false);
-  }, [isLoggedIn]);
+  }, [API, isLoggedIn]);
 
   if (!isLoggedIn) return <div>Please log in to view your watchlist.</div>;
   if (loading) return <div>Loading...</div>;

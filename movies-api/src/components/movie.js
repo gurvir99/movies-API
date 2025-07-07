@@ -30,27 +30,57 @@ function Movie() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const getData = () => {
-    fetch(`/api/tmdb/movie/${id}`)
-      .then((res) => res.json())
-      .then((data) => setMovie(data));
+  // const getData = () => {
+  //   fetch(`/api/tmdb/movie/${id}`)
+  //     .then((res) => res.json())
+  //     .then((data) => setMovie(data));
+  // };
+
+  const getData = async () => {
+    try {
+      const res = await API.get(`/api/tmdb/movie/${id}`);
+      setMovie(res.data);
+    } catch (err) {
+      console.error("Failed to fetch movie data:", err);
+    }
   };
 
-  const getCredits = () => {
-    fetch(`/api/tmdb/movie/${id}/credits`)
-      .then((res) => res.json())
-      .then((data) =>
-        setCredits(Object.fromEntries(Object.entries(data.cast).slice(0, 5)))
+  // const getCredits = () => {
+  //   fetch(`/api/tmdb/movie/${id}/credits`)
+  //     .then((res) => res.json())
+  //     .then((data) =>
+  //       setCredits(Object.fromEntries(Object.entries(data.cast).slice(0, 5)))
+  //     );
+  // };
+
+  const getCredits = async () => {
+    try {
+      const res = await API.get(`/api/tmdb/movie/${id}/credits`);
+      const topFive = Object.fromEntries(
+        Object.entries(res.data.cast).slice(0, 5)
       );
+      setCredits(topFive);
+    } catch (err) {
+      console.error("Failed to fetch credits:", err);
+    }
   };
 
   //to iterate cast members object
   const numbers = [1, 2, 3, 4, 5];
 
-  const getVideos = () => {
-    fetch(`/api/tmdb/movie/${id}/videos`)
-      .then((res) => res.json())
-      .then((data) => setVideos(data));
+  // const getVideos = () => {
+  //   fetch(`/api/tmdb/movie/${id}/videos`)
+  //     .then((res) => res.json())
+  //     .then((data) => setVideos(data));
+  // };
+
+  const getVideos = async () => {
+    try {
+      const res = await API.get(`/api/tmdb/movie/${id}/videos`);
+      setVideos(res.data);
+    } catch (err) {
+      console.error("Failed to fetch videos:", err);
+    }
   };
 
   //initialize trailer url
