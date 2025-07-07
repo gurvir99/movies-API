@@ -5,13 +5,12 @@ import "../componentsStyles/movie.css";
 import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { toast } from 'sonner';
+import { toast } from "sonner";
 
 function Movie() {
-
   const API = axios.create({
-  baseURL: process.env.REACT_APP_API_URL,
- });
+    baseURL: process.env.REACT_APP_API_URL,
+  });
 
   const { isLoggedIn } = useContext(AuthContext);
   const [isFavourite, setIsFavourite] = useState(false);
@@ -32,17 +31,13 @@ function Movie() {
   }, []);
 
   const getData = () => {
-    fetch(
-      `https://api.themoviedb.org/3/movie/${id}?api_key=0a14e28062847d0d8d59959339cfbc66`
-    )
+    fetch(`/api/tmdb/movie/${id}`)
       .then((res) => res.json())
       .then((data) => setMovie(data));
   };
 
   const getCredits = () => {
-    fetch(
-      `https://api.themoviedb.org/3/movie/${id}/credits?api_key=0a14e28062847d0d8d59959339cfbc66`
-    )
+    fetch(`/api/tmdb/movie/${id}/credits`)
       .then((res) => res.json())
       .then((data) =>
         setCredits(Object.fromEntries(Object.entries(data.cast).slice(0, 5)))
@@ -53,9 +48,7 @@ function Movie() {
   const numbers = [1, 2, 3, 4, 5];
 
   const getVideos = () => {
-    fetch(
-      `https://api.themoviedb.org/3/movie/${id}/videos?api_key=0a14e28062847d0d8d59959339cfbc66`
-    )
+    fetch(`/api/tmdb/movie/${id}/videos`)
       .then((res) => res.json())
       .then((data) => setVideos(data));
   };
@@ -99,7 +92,7 @@ function Movie() {
       }
     };
     fetchFavourites();
-  }, [isLoggedIn, currentMovieDetail]);
+  }, [isLoggedIn, currentMovieDetail, API]);
 
   const handleAddToFavourites = async () => {
     try {
@@ -222,16 +215,14 @@ function Movie() {
                   </button>
                 ))}
 
-                <button
-                    className="fav__Button"
-                    onClick={() => navigate(`/movie/${currentMovieDetail.id}/review`)}
-                  >
-                    Reviews
-                  </button>
-
-
-
-
+              <button
+                className="fav__Button"
+                onClick={() =>
+                  navigate(`/movie/${currentMovieDetail.id}/review`)
+                }
+              >
+                Reviews
+              </button>
             </div>
           </div>
         </div>

@@ -8,9 +8,8 @@ import { FaStarHalfAlt } from "react-icons/fa";
 import { toast } from "sonner";
 
 function Reviews() {
-
   const API = axios.create({
-  baseURL: process.env.REACT_APP_API_URL,
+    baseURL: process.env.REACT_APP_API_URL,
   });
 
   const { id: movieId } = useParams(); // Get movieId from URL
@@ -38,9 +37,7 @@ function Reviews() {
   useEffect(() => {
     const fetchMovie = async () => {
       try {
-        const res = await API.get(
-          `https://api.themoviedb.org/3/movie/${movieId}?api_key=0a14e28062847d0d8d59959339cfbc66`
-        );
+        const res = await API.get(`/api/tmdb/movie/${movieId}`);
         setPosterPath(res.data.backdrop_path);
         setMovieTitle(res.data.title);
       } catch (err) {
@@ -50,7 +47,7 @@ function Reviews() {
       }
     };
     fetchMovie();
-  }, [movieId]);
+  }, [movieId, API]);
 
   // Fetch all reviews for this movie
   useEffect(() => {
@@ -65,7 +62,7 @@ function Reviews() {
       }
     };
     fetchReviews();
-  }, [movieId]);
+  }, [movieId, API]);
 
   // Add or update review
   const handleSubmit = async (e) => {

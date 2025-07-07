@@ -6,6 +6,7 @@ require('dotenv').config({ path: './config/.env' });
 const userRoutes = require('./routes/user');
 const favoritesRoutes = require('./routes/favourites');
 const reviewRoutes = require('./routes/review'); 
+const tmdbRoutes = require("./routes/tmdb");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -18,6 +19,7 @@ app.use(express.json());
 app.use('/api/users', userRoutes);
 app.use('/api/favorites', favoritesRoutes);
 app.use('/api/reviews', reviewRoutes);
+app.use("/api/tmdb", tmdbRoutes);
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI)
