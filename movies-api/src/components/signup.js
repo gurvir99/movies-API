@@ -154,7 +154,7 @@ function Signup() {
         </form>
         <p>
           {activeForm === "signIn"
-            ? "Don't have an account? "
+            ? "Do not have an account? "
             : "Already have an account? "}
           <span
             onClick={() =>
